@@ -6,14 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://example.com">
-  <title>Archives | Hexo</title>
+  <title>LinkedBlockingDeque | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://example.com/archives/index.html">
+  <meta name="description" content="本篇文章是【Java集合系列】文章队列篇的第一篇，本系列将会逐个分析 Java 中的常用集合的特性及实现，然后对比不同场景下应该选择哪种集合使用。## List 系列  ArrayList LinkedList CopyOnWriteArrayList  Queue系列 ArrayDeque ConcurrentLinkedDeque LinkedBlockingDeque  LinkedBloc">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LinkedBlockingDeque">
+<meta property="og:url" content="http://example.com/2020/10/21/LinkedBlockingDeque/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="本篇文章是【Java集合系列】文章队列篇的第一篇，本系列将会逐个分析 Java 中的常用集合的特性及实现，然后对比不同场景下应该选择哪种集合使用。## List 系列  ArrayList LinkedList CopyOnWriteArrayList  Queue系列 ArrayDeque ConcurrentLinkedDeque LinkedBlockingDeque  LinkedBloc">
 <meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-10-21T15:16:40.000Z">
+<meta property="article:modified_time" content="2020-10-22T14:41:05.904Z">
 <meta property="article:author" content="John Doe">
+<meta property="article:tag" content="技术">
+<meta property="article:tag" content="Java">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternative" href="/atom.xml" title="Hexo" type="application/atom+xml">
@@ -154,142 +160,85 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-LinkedBlockingDeque" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/10/21/HashMap/" class="archive-article-date">
-  	<time datetime="2020-10-21T15:17:20.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-10-21</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/10/21/HashMap/">HashMap</a>
+    <h1 class="article-title" itemprop="name">
+      LinkedBlockingDeque
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">技术</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Java</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Java//" class="article-tag-list-link color5">Java</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/10/21/Hashtable/" class="archive-article-date">
-  	<time datetime="2020-10-21T15:17:05.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-10-21</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/10/21/Hashtable/">Hashtable</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">技术</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Java</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Java//" class="article-tag-list-link color5">Java</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/10/21/LinkedBlockingDeque/" class="archive-article-date">
+        
+        <a href="/2020/10/21/LinkedBlockingDeque/" class="archive-article-date">
   	<time datetime="2020-10-21T15:16:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-10-21</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/10/21/LinkedBlockingDeque/">LinkedBlockingDeque</a>
-    </h1>
-  
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>本篇文章是【<strong>Java集合系列</strong>】文章队列篇的第一篇，本系列将会逐个分析 Java 中的常用集合的特性及实现，然后对比不同场景下应该选择哪种集合使用。## List 系列</p>
+<ul>
+<li><a href="">ArrayList</a></li>
+<li><a href="">LinkedList</a></li>
+<li><a href="">CopyOnWriteArrayList</a></li>
+</ul>
+<h2 id="Queue系列"><a href="#Queue系列" class="headerlink" title="Queue系列"></a>Queue系列</h2><ul>
+<li><a href="">ArrayDeque</a></li>
+<li><a href="">ConcurrentLinkedDeque</a></li>
+<li><strong>LinkedBlockingDeque</strong></li>
+</ul>
+<h1 id="LinkedBlockingDeque"><a href="#LinkedBlockingDeque" class="headerlink" title="LinkedBlockingDeque"></a>LinkedBlockingDeque</h1><p>LinkedBlockingDeque 是基于<strong>链表</strong>的<strong>双端阻塞队列</strong>，<strong>线程安全</strong>，元素不允许为 null。</p>
+<p>空间容量最大一般为<code>Integer.MAX_VALUE</code>，如果构造器中指定了最大值则队列长度将会被限制在该值以下。</p>
+<p>大部分方法都以固定时间运行，批量操作，例如：<code>remove</code>， <code>removeFirstOccurrence</code>，<code>removeLastOccurrence</code>，<code>contains</code>，<code>iterator.remove()</code>，将以线性时间运行。</p>
+<p>LinkedBlockingDeque 是<strong>阻塞队列</strong>，是指对于一些指定的操作，在插入或者获取队列元素时如果队列状态不允许该操作可能会阻塞住该线程直到队列状态变更为允许操作，这里的阻塞一般有两种情况。</p>
+<a id="more"></a>
+<p>第一种是插入元素时，如果当前队列已满将会进入阻塞状态，一直等到队列有空的位置时再讲该元素插入，该操作可以通过设置超时参数，超时后返回 false 表示操作失败，也可以不设置超时参数一直阻塞，中断后抛出<code>InterruptedException</code>异常。</p>
+<p>第二种是读取元素时如果当前队列为空会阻塞住直到队列不为空然后返回元素，同样可以通过设置超时参数。</p>
+<p>一般多用于<strong>生产者消费者模式</strong>。</p>
+<h1 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h1><p>LinkedBlockingDeque 实现了 BlockingDeque 接口，除了原本双端队列中的方法外还另外提供了一些<strong>阻塞操作</strong>的方法。每种操作分为阻塞与超时两种，阻塞方法调用将会一直阻塞知道队列可用，中间如果中断则抛出<code>InterruptedException</code>异常。超时方法同样也会阻塞，允许设置超时时间，超时后返回 false 表示操作失败。</p>
+<p>下面我们先看下这几个方法。</p>
+<p><code>head</code>操作：</p>
+<p>|类型|阻塞|超时|<br>| ———— | ———— |<br>|插入|putFirst(e)|offerFirst(e, time, unit)|<br>|移除|takeFirst()|pollFirst(time, unit)|</p>
+<p><code>tail</code>操作：</p>
+<p>|类型|阻塞|超时|<br>| ———— | ———— |<br>|插入|putLast(e)|offerLast(e, time, unit)|<br>|移除|takeLast()|pollLast(time, unit)|</p>
+<h1 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h1><p>我们先看看类中定义的几个重要的属性：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">transient</span> <span class="keyword">int</span> count;<span class="comment">//当前链表长度</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">int</span> capacity;<span class="comment">//链表最大长度</span></span><br><span class="line"><span class="keyword">final</span> ReentrantLock lock = <span class="keyword">new</span> ReentrantLock();</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> Condition notEmpty = lock.newCondition();</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> Condition notFull = lock.newCondition();</span><br></pre></td></tr></table></figure>
+<p><code>capacity</code>表示链表的最大长度，默认是<code>Integer.MAX_VALUE</code>，可以在构造器中指定。</p>
+<p>下面的<code>lock</code>是可重入锁，用于在读取或修改链表时使用，保证线程安全。</p>
+<p><code>notEmpty</code>表示不为空时的<code>Condition</code>，当不为空时会调用<code>notEmpty.signal()</code>通知被<code>notEmpty</code>阻塞的线程。<code>notFull</code>是未满状态的<code>Condition</code>，用法同上。</p>
+<p>类中的方法可分为三类，第一类是只保证线程安全，但不会阻塞住的方法，第二是会阻塞方法，第三是超时方法。下面我们通过几个典型的方法看看是如何实现的。</p>
+<p>通过阅读源码发现，不管是上面三种的哪一种，最终都会调用同一个方法先对节点进行操作，只不过每个方法内部有不同的处理，以读取<code>head</code>节点为例，主要有三个典型的方法：</p>
+<ul>
+<li><code>pollFirst()</code>：保证线程安全，但不会阻塞</li>
+<li><code>takeFirst()</code>：阻塞方法</li>
+<li><code>pollFirst(timeout, unit)</code>：超时方法</li>
+</ul>
+<p>上面是三个最终都先调用了<code>unlinkFirst()</code>移除<code>head</code>节点，那么我们先看看这个。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> E <span class="title">unlinkFirst</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">// assert lock.isHeldByCurrentThread();</span></span><br><span class="line">    Node&lt;E&gt; f = first;</span><br><span class="line">    <span class="keyword">if</span> (f == <span class="keyword">null</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    Node&lt;E&gt; n = f.next;</span><br><span class="line">    E item = f.item;</span><br><span class="line">    f.item = <span class="keyword">null</span>;</span><br><span class="line">    f.next = f; <span class="comment">// help GC</span></span><br><span class="line">    first = n;</span><br><span class="line">    <span class="keyword">if</span> (n == <span class="keyword">null</span>)</span><br><span class="line">        last = <span class="keyword">null</span>;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        n.prev = <span class="keyword">null</span>;</span><br><span class="line">    --count;</span><br><span class="line">    notFull.signal();</span><br><span class="line">    <span class="keyword">return</span> item;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面代码其实就是一个移除head节点的操作，重点是最后会调用<code>notFull.signal()</code>通知被<code>notFull</code>阻塞的线程，例如我们使用阻塞/超时方法添加元素时（例如<code>putFirst</code>）如果队列已满则会进入阻塞状态，当有其他线程调用了 remove 操作之后此时队列有了空缺的位置，就可以通知阻塞线程继续将元素添加进去。</p>
+<h3 id="pollFirst"><a href="#pollFirst" class="headerlink" title="pollFirst"></a>pollFirst</h3><p>下面我们再看看<code>pollFirst()</code>是如何实现线程安全的：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> E <span class="title">pollFirst</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">final</span> ReentrantLock lock = <span class="keyword">this</span>.lock;</span><br><span class="line">    lock.lock();</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> unlinkFirst();</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        lock.unlock();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这个方法其实很简单，先用<code>ReentrantLock</code>锁定之后对链表进行操作，操作完成后在解锁，然后返回数据，操作完成。</p>
+<h3 id="takeFirst"><a href="#takeFirst" class="headerlink" title="takeFirst"></a>takeFirst</h3><p><code>takeFirst()</code>大概是阻塞队列中最常用的一个方法，用于移除并返回<code>head</code>元素，队列为空则阻塞调用线程直到可以返回数据。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> E <span class="title">takeFirst</span><span class="params">()</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">    <span class="keyword">final</span> ReentrantLock lock = <span class="keyword">this</span>.lock;</span><br><span class="line">    lock.lock();</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        E x;</span><br><span class="line">        <span class="keyword">while</span> ( (x = unlinkFirst()) == <span class="keyword">null</span>)</span><br><span class="line">            notEmpty.await();</span><br><span class="line">        <span class="keyword">return</span> x;</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        lock.unlock();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里阻塞方式是通过自旋的方式持续从<code>unlinkFirst</code>获取<code>head</code>节点，空则调用<code>notEmpty.await()</code>阻塞，<code>signal</code>之后再重复这一步骤，直到获取到值为止。</p>
+<p>另外一点，该方法也会先调用<code>lock.lock()</code>获得锁，然后继续操作，这点我开始比较疑惑，因为该方法会阻塞住，如果获得了锁别的线程不就没法获得锁从而操作队列了吗，查找资料之后才发现，<code>notEmpty.await()</code>方法出于线程调度目的，<strong>该锁会被原子释放</strong>，线程进入阻塞状态，因此其他线程可以正常获得锁并继续操作。</p>
+<h3 id="pollFirst-timeout-unit"><a href="#pollFirst-timeout-unit" class="headerlink" title="pollFirst(timeout, unit)"></a>pollFirst(timeout, unit)</h3><p>与<code>takeFirst</code>不用的是，<code>pollFirst</code>可以设置一个超时时间，当阻塞时间超过该时间之后将会从阻塞状态中恢复并返回 null。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> E <span class="title">pollFirst</span><span class="params">(<span class="keyword">long</span> timeout, TimeUnit unit)</span></span></span><br><span class="line"><span class="function">    <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">    <span class="keyword">long</span> nanos = unit.toNanos(timeout);</span><br><span class="line">    <span class="keyword">final</span> ReentrantLock lock = <span class="keyword">this</span>.lock;</span><br><span class="line">    lock.lockInterruptibly();</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        E x;</span><br><span class="line">        <span class="keyword">while</span> ( (x = unlinkFirst()) == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (nanos &lt;= <span class="number">0</span>)</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">            nanos = notEmpty.awaitNanos(nanos);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> x;</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        lock.unlock();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>跟<code>takeFirst()</code>基本类似，不过调用的是<code>notEmpty.awaitNanos(nanos)</code>方法设置超时时间，而且每次循环都会检测一遍是否超时，超时则直接返回 null 值。</p>
+<p>还有一个不同点，<code>pollFirst</code>获取锁的方式是调用<code>lock.lockInterruptibly()</code>方法，该方法与<code>lock</code>不同的是，它允许等待线程被中断，中断后直接抛出<code>InterruptedException</code>异常，而调用<code>lock</code>方法等待线程即使中断仍然会继续等待获取锁，只不过获取成功后会中断线程。</p>
 
-        <div class="article-info info-on-right">
-          
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -305,7 +254,7 @@
 		</ul>
 	</div>
 
-          
+      
 	<div class="article-category tagcloud">
 		<i class="icon-book icon"></i>
 		<ul class="article-tag-list">
@@ -318,332 +267,141 @@
 	</div>
 
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://example.com/2020/10/21/LinkedBlockingDeque/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/10/21/ConcurrentLinkedDeque/" class="archive-article-date">
-  	<time datetime="2020-10-21T15:16:18.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-10-21</time>
-</a>
+<nav id="article-nav">
+  
+    <a href="/2020/10/21/Hashtable/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          Hashtable
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/10/21/ConcurrentLinkedDeque/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">ConcurrentLinkedDeque</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/10/21/ConcurrentLinkedDeque/">ConcurrentLinkedDeque</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">技术</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Java</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Java//" class="article-tag-list-link color5">Java</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
+        
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Queue%E7%B3%BB%E5%88%97"><span class="toc-number">1.</span> <span class="toc-text">Queue系列</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#LinkedBlockingDeque"><span class="toc-number"></span> <span class="toc-text">LinkedBlockingDeque</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%96%B9%E6%B3%95"><span class="toc-number"></span> <span class="toc-text">方法</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%BA%90%E7%A0%81"><span class="toc-number"></span> <span class="toc-text">源码</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#pollFirst"><span class="toc-number">0.1.</span> <span class="toc-text">pollFirst</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#takeFirst"><span class="toc-number">0.2.</span> <span class="toc-text">takeFirst</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#pollFirst-timeout-unit"><span class="toc-number">0.3.</span> <span class="toc-text">pollFirst(timeout, unit)</span></a></li></ol></li></ol>
+                    </div>
+                </span>
+            </div>
         </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/10/21/ArrayDeque/" class="archive-article-date">
-  	<time datetime="2020-10-21T15:15:04.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-10-21</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/10/21/ArrayDeque/">ArrayDeque</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">技术</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Java</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Java//" class="article-tag-list-link color5">Java</a>
-        		</li>
-      		
-		</ul>
-	</div>
+        
+    </div>
+</aside>
 
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/10/21/CopyOnWriteArrayList/" class="archive-article-date">
-  	<time datetime="2020-10-21T15:14:35.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-10-21</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/10/21/CopyOnWriteArrayList/">CopyOnWriteArrayList</a>
-    </h1>
-  
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">技术</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Java</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Java//" class="article-tag-list-link color5">Java</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/10/21/LinkedList/" class="archive-article-date">
-  	<time datetime="2020-10-21T15:13:26.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-10-21</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/10/21/LinkedList/">LinkedList</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">技术</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Java</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Java//" class="article-tag-list-link color5">Java</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/10/21/Hexo-use/" class="archive-article-date">
-  	<time datetime="2020-10-21T15:08:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-10-21</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/10/21/Hexo-use/">Hexo use</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">技术</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/奇怪的知识//" class="article-tag-list-link color1">奇怪的知识</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/10/19/ArrayList/" class="archive-article-date">
-  	<time datetime="2020-10-19T15:06:27.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-10-19</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/10/19/ArrayList/">ArrayList</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">技术</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Java</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Java//" class="article-tag-list-link color5">Java</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
   
-    </div></section>
   
 
-    
+  
 
+  
+
+  
+  
+      <head>
+          <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+      </head>
+      <body>
+          <div id="vcomments"></div>
+          <script>
+              new Valine({
+                  el: '#vcomments',
+                  appId: 'o2yHNsrLQIKwCa6T3TP3kDWT-gzGzoHsz',
+                  appKey: '1usBLOxgPPuy3daxJFP47Bsc'
+              })
+          </script>
+      </body>
+  
 
           </div>
         </div>
@@ -665,8 +423,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
