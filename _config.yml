@@ -25,6 +25,10 @@ favicon: /assets/favicon.ico
 description: 踏进我的博客，就是我珍贵的客人。
 global_tags: jekyll theme simplex golasblog responsive html5
 copyright: ©ZhangKe 2023
+author: ZhangKe
+
+plugins:
+  - jekyll-feed
 
 sass:
     style: compressed
