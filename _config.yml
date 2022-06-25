@@ -18,13 +18,13 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 
-title: ZhangKe's Blog
+title: 张可的博客
 email: kezhang404@gmail.com
-logo_img: /assets/img/icons/golasblog_logo.svg
+logo_img: /assets/img/avatar.jpg
 favicon: /assets/favicon.ico
-description: description
+description: 踏进我的博客，就是我珍贵的客人。
 global_tags: jekyll theme simplex golasblog responsive html5
-copyright: © Golasowski 2021
+copyright: ©ZhangKe 2023
 
 sass:
     style: compressed

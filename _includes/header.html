@@ -1,20 +1,99 @@
 <header class="header">
-    <section class="logo">
+    <!--     <section class="logo">
         <a href="{{ site.url }}/" class="logo__link">
             {% if site.logo_img != nil %}
                 <h1 style="display: none;">{{ site.title }}</h1>
                 <img class="logo__link__img" src="{{site.logo_img}}" />
             {% else %}
-                <h1>{{ site.title }}</h1>
+                
             {% endif %}
         </a>
-    </section>
+    </section> -->
+
+
+    <style type="text/css">
+        .first_menu {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            box-shadow: 2px 2px 2px rgba(0, 0, 0, .5);
+        }
+
+        .other_menu {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            box-shadow: 2px 2px 2px rgba(0, 0, 0, .5);
+            margin-left: 20px;
+        }
+
+        .menu_mail {
+            width: 32px;
+            height: 25px;
+            box-shadow: 2px 2px 2px rgba(0, 0, 0, .5);
+            margin-left: 20px;
+        }
+
+        .menu_group {
+            margin-top: 20px;
+        }
+    </style>
+
+    <style>
+        #wechat_qrcode {
+            padding: 10px 10px 10px 10px;
+            border-radius: 3px;
+            box-shadow: 0px 0px 2px #ccc;
+            background: #fff;
+            color: #000;
+            position: absolute;
+            text-align: center;
+            display: inline-block;
+            left: 532px;
+            top: 47px;
+        }
+    </style>
+
+    <script language="javascript">
+        function showPic(e, sUrl) {
+            var x, y;
+            x = e.clientX;
+            y = e.clientY;
+            document.getElementById("Layer1").style.left = x + 2 + 'px';
+            document.getElementById("Layer1").style.top = y + 2 + 'px';
+            document.getElementById("Layer1").innerHTML = "<img border='0' src=\"" + sUrl + "\">";
+            document.getElementById("Layer1").style.display = "";
+        }
+        function hiddenPic() {
+            document.getElementById("Layer1").innerHTML = "";
+            document.getElementById("Layer1").style.display = "none";
+        } 
+    </script>
+
+    <h1>{{ site.title }}</h1>
+
+    <div>
+        <a href="https://medium.com/@kezhang404"><img class="first_menu" src="/assets/img/medium.png" /></a>
+        <a href="https://github.com/0xZhangKe"><img class="other_menu" src="/assets/img/github.png" /></a>
+        <a href="mailto:kezhang404@gmail.com"><img class="other_menu" src="/assets/img/mail.jpg" /></a>
+        <a href="" onmouseout="hiddenPic();" onmousemove="showPic(event,'/assets/img/subscribe_account.jpg');">
+            <img class="other_menu" src="/assets/img/wechat.png" />
+        </a>
+        <a href="https://github.com/0xZhangKe"><img class="other_menu" src="/assets/img/rss.png" /></a>
+    </div>
+
+    <div id="Layer1" style="display: none; position: absolute; z-index: 100;">
+    </div>
+
     <button id="menuToggle">
-        <div></div>
+        <div>
+
+        </div>
         <div></div>
         <div></div>
     </button>
     <nav class="menu">
         {% include nav.html nav=site.data.nav %}
     </nav>
+
 </header>

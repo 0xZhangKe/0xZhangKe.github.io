@@ -27,12 +27,5 @@
         </section>
         <h2 class="snippet__data__header">{{post.title }}</h2>
         <p class="snippet__data__text">{{ post.excerpt | strip_html }}</p>
-        {% if post.author != nil %}
-            <div class="snippet__data__author"> 
-                {% assign author = site.authors | where: "nick", post.author | first %}
-                <img src="{{ site.url }}/{{ author.photo_dir }}"/>
-                <p>{{ author.full_name }}</p>
-            </div>
-        {% endif %}
     </section>
 </a> 
