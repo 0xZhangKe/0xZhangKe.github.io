@@ -10,7 +10,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <meta property="og:site_name" content="{{ site.title }}" />
-<!-- <meta 
+<meta 
     property="og:title"
     content="
         {% if page.title != nil %}
@@ -19,7 +19,7 @@
             {{site.title}}
         {% endif %}
     " 
-/> -->
+/>
 {% if page.og_description != nil %}
     <meta property="og:description" content="{{ page.og_description }}" />
 {% endif %}
@@ -39,11 +39,6 @@
     <meta property="fb:app_id" content="{{ site.fb_app_id }}" />
 {% endif %}
 
-
-<!-- <title>
-    {% if page.title != nil %}
-        {{page.title}}
-    {% else %}
-        {{site.title}}
-    {% endif %}
-</title> -->
+<head>
+    <title>{{site.title}}</title>
+</head>
