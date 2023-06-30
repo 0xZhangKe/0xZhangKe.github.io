@@ -6,6 +6,8 @@ author: ZhangKe
 date:   2023-06-30 23:30:40 +0800
 ---
 
+# 亲手封装一个简单灵活的下拉刷新上拉加载 Compose Layout
+
 Compose 的下拉刷新有现成的 [Material 库](https://developer.android.com/reference/kotlin/androidx/compose/material/pullrefresh/package-summary)可以直接使用，非常简单方便。
 
 但是上拉加载目前没看到有封装的特别好的库，而且上拉加载也是个比较简单的功能，没必要再去依赖一个质量未知的库。我们可以基于目前的 LazyList 简单的封装一个灵活的组件。
@@ -31,8 +33,8 @@ Compose 的下拉刷新有现成的 [Material 库](https://developer.android.com
 ```kotlin
 @Composable
 fun rememberLoadMoreState(
-loadMoreRemainCountThreshold: Int,
-onLoadMore: () -> Unit,
+    loadMoreRemainCountThreshold: Int,
+    onLoadMore: () -> Unit,
 ): LoadMoreState {
     return remember {
         LoadMoreState(loadMoreRemainCountThreshold, onLoadMore)
@@ -47,9 +49,9 @@ onLoadMore: () -> Unit,
 ```kotlin
 @OptIn(ExperimentalMaterialApi::class)
 data class LoadableLazyColumnState(
-val lazyListState: LazyListState,
-val pullRefreshState: PullRefreshState,
-val loadMoreState: LoadMoreState,
+    val lazyListState: LazyListState,
+    val pullRefreshState: PullRefreshState,
+    val loadMoreState: LoadMoreState,
 )
 ```
 
@@ -61,34 +63,34 @@ val loadMoreState: LoadMoreState,
 @Composable
 @ExperimentalMaterialApi
 fun rememberLoadableLazyColumnState(
-refreshing: Boolean,
-onRefresh: () -> Unit,
-onLoadMore: () -> Unit,
-refreshThreshold: Dp = PullRefreshDefaults.RefreshThreshold,
-refreshingOffset: Dp = PullRefreshDefaults.RefreshingOffset,
-loadMoreRemainCountThreshold: Int = 5,
-initialFirstVisibleItemIndex: Int = 0,
-initialFirstVisibleItemScrollOffset: Int = 0
+    refreshing: Boolean,
+    onRefresh: () -> Unit,
+    onLoadMore: () -> Unit,
+    refreshThreshold: Dp = PullRefreshDefaults.RefreshThreshold,
+    refreshingOffset: Dp = PullRefreshDefaults.RefreshingOffset,
+    loadMoreRemainCountThreshold: Int = 5,
+    initialFirstVisibleItemIndex: Int = 0,
+    initialFirstVisibleItemScrollOffset: Int = 0
 ): LoadableLazyColumnState {
     val pullRefreshState = rememberPullRefreshState(
-    refreshing = refreshing,
-    onRefresh = onRefresh,
-    refreshingOffset = refreshingOffset,
-    refreshThreshold = refreshThreshold,
+        refreshing = refreshing,
+        onRefresh = onRefresh,
+        refreshingOffset = refreshingOffset,
+        refreshThreshold = refreshThreshold,
     )
 
     val lazyListState = rememberLazyListState(
-    initialFirstVisibleItemScrollOffset = initialFirstVisibleItemScrollOffset,
-    initialFirstVisibleItemIndex = initialFirstVisibleItemIndex,
+        initialFirstVisibleItemScrollOffset = initialFirstVisibleItemScrollOffset,
+        initialFirstVisibleItemIndex = initialFirstVisibleItemIndex,
     )
 
     val loadMoreState = rememberLoadMoreState(loadMoreRemainCountThreshold, onLoadMore)
 
     return remember {
         LoadableLazyColumnState(
-        lazyListState = lazyListState,
-        pullRefreshState = pullRefreshState,
-        loadMoreState = loadMoreState,
+            lazyListState = lazyListState,
+            pullRefreshState = pullRefreshState,
+            loadMoreState = loadMoreState,
         )
     }
 }
@@ -102,19 +104,19 @@ initialFirstVisibleItemScrollOffset: Int = 0
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun LoadableLazyColumn(
-modifier: Modifier = Modifier,
-state: LoadableLazyColumnState,
-refreshing: Boolean,
-loading: Boolean,
-contentPadding: PaddingValues = PaddingValues(0.dp),
-reverseLayout: Boolean = false,
-verticalArrangement: Arrangement.Vertical =
-if (!reverseLayout) Arrangement.Top else Arrangement.Bottom,
-horizontalAlignment: Alignment.Horizontal = Alignment.Start,
-flingBehavior: FlingBehavior = ScrollableDefaults.flingBehavior(),
-userScrollEnabled: Boolean = true,
-loadingContent: (@Composable () -> Unit)? = null,
-content: LazyListScope.() -> Unit,
+    modifier: Modifier = Modifier,
+    state: LoadableLazyColumnState,
+    refreshing: Boolean,
+    loading: Boolean,
+    contentPadding: PaddingValues = PaddingValues(0.dp),
+    reverseLayout: Boolean = false,
+    verticalArrangement: Arrangement.Vertical =
+        if (!reverseLayout) Arrangement.Top else Arrangement.Bottom,
+    horizontalAlignment: Alignment.Horizontal = Alignment.Start,
+    flingBehavior: FlingBehavior = ScrollableDefaults.flingBehavior(),
+    userScrollEnabled: Boolean = true,
+    loadingContent: (@Composable () -> Unit)? = null,
+    content: LazyListScope.() -> Unit,
 )
 ```
 
@@ -226,58 +228,58 @@ import androidx.compose.ui.unit.dp
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun LoadableLazyColumn(
-modifier: Modifier = Modifier,
-state: LoadableLazyColumnState,
-refreshing: Boolean,
-loading: Boolean,
-contentPadding: PaddingValues = PaddingValues(0.dp),
-reverseLayout: Boolean = false,
-verticalArrangement: Arrangement.Vertical =
-if (!reverseLayout) Arrangement.Top else Arrangement.Bottom,
-horizontalAlignment: Alignment.Horizontal = Alignment.Start,
-flingBehavior: FlingBehavior = ScrollableDefaults.flingBehavior(),
-userScrollEnabled: Boolean = true,
-loadingContent: (@Composable () -> Unit)? = null,
-content: LazyListScope.() -> Unit,
+    modifier: Modifier = Modifier,
+    state: LoadableLazyColumnState,
+    refreshing: Boolean,
+    loading: Boolean,
+    contentPadding: PaddingValues = PaddingValues(0.dp),
+    reverseLayout: Boolean = false,
+    verticalArrangement: Arrangement.Vertical =
+        if (!reverseLayout) Arrangement.Top else Arrangement.Bottom,
+    horizontalAlignment: Alignment.Horizontal = Alignment.Start,
+    flingBehavior: FlingBehavior = ScrollableDefaults.flingBehavior(),
+    userScrollEnabled: Boolean = true,
+    loadingContent: (@Composable () -> Unit)? = null,
+    content: LazyListScope.() -> Unit,
 ) {
     val lazyListState = state.lazyListState
     // 获取 lazyList 布局信息
     val listLayoutInfo by remember { derivedStateOf { lazyListState.layoutInfo } }
     Box(
-    modifier = modifier
-    .pullRefresh(state.pullRefreshState)
+        modifier = modifier
+            .pullRefresh(state.pullRefreshState)
     ) {
         LazyColumn(
-        contentPadding = contentPadding,
-        state = state.lazyListState,
-        reverseLayout = reverseLayout,
-        verticalArrangement = verticalArrangement,
-        horizontalAlignment = horizontalAlignment,
-        flingBehavior = flingBehavior,
-        userScrollEnabled = userScrollEnabled,
-        content = {
-            content()
-            item {
-                if (loadingContent != null) {
-                    loadingContent()
-                } else {
-                    if (loading) {
-                        Box(modifier = Modifier.fillMaxWidth()) {
-                            CircularProgressIndicator(
-                            modifier = Modifier
-                            .size(30.dp)
-                            .align(Alignment.Center)
-                            )
+            contentPadding = contentPadding,
+            state = state.lazyListState,
+            reverseLayout = reverseLayout,
+            verticalArrangement = verticalArrangement,
+            horizontalAlignment = horizontalAlignment,
+            flingBehavior = flingBehavior,
+            userScrollEnabled = userScrollEnabled,
+            content = {
+                content()
+                item {
+                    if (loadingContent != null) {
+                        loadingContent()
+                    } else {
+                        if (loading) {
+                            Box(modifier = Modifier.fillMaxWidth()) {
+                                CircularProgressIndicator(
+                                    modifier = Modifier
+                                        .size(30.dp)
+                                        .align(Alignment.Center)
+                                )
+                            }
                         }
                     }
                 }
-            }
-        },
+            },
         )
         PullRefreshIndicator(
-        refreshing,
-        state.pullRefreshState,
-        Modifier.align(Alignment.TopCenter)
+            refreshing,
+            state.pullRefreshState,
+            Modifier.align(Alignment.TopCenter)
         )
     }
     // 上次是否正在滑动
@@ -311,42 +313,42 @@ content: LazyListScope.() -> Unit,
 @Composable
 @ExperimentalMaterialApi
 fun rememberLoadableLazyColumnState(
-refreshing: Boolean,
-onRefresh: () -> Unit,
-onLoadMore: () -> Unit,
-refreshThreshold: Dp = PullRefreshDefaults.RefreshThreshold,
-refreshingOffset: Dp = PullRefreshDefaults.RefreshingOffset,
-loadMoreRemainCountThreshold: Int = 5,
-initialFirstVisibleItemIndex: Int = 0,
-initialFirstVisibleItemScrollOffset: Int = 0
+    refreshing: Boolean,
+    onRefresh: () -> Unit,
+    onLoadMore: () -> Unit,
+    refreshThreshold: Dp = PullRefreshDefaults.RefreshThreshold,
+    refreshingOffset: Dp = PullRefreshDefaults.RefreshingOffset,
+    loadMoreRemainCountThreshold: Int = 5,
+    initialFirstVisibleItemIndex: Int = 0,
+    initialFirstVisibleItemScrollOffset: Int = 0
 ): LoadableLazyColumnState {
     val pullRefreshState = rememberPullRefreshState(
-    refreshing = refreshing,
-    onRefresh = onRefresh,
-    refreshingOffset = refreshingOffset,
-    refreshThreshold = refreshThreshold,
+        refreshing = refreshing,
+        onRefresh = onRefresh,
+        refreshingOffset = refreshingOffset,
+        refreshThreshold = refreshThreshold,
     )
 
     val lazyListState = rememberLazyListState(
-    initialFirstVisibleItemScrollOffset = initialFirstVisibleItemScrollOffset,
-    initialFirstVisibleItemIndex = initialFirstVisibleItemIndex,
+        initialFirstVisibleItemScrollOffset = initialFirstVisibleItemScrollOffset,
+        initialFirstVisibleItemIndex = initialFirstVisibleItemIndex,
     )
 
     val loadMoreState = rememberLoadMoreState(loadMoreRemainCountThreshold, onLoadMore)
 
     return remember {
         LoadableLazyColumnState(
-        lazyListState = lazyListState,
-        pullRefreshState = pullRefreshState,
-        loadMoreState = loadMoreState,
+            lazyListState = lazyListState,
+            pullRefreshState = pullRefreshState,
+            loadMoreState = loadMoreState,
         )
     }
 }
 
 @Composable
 fun rememberLoadMoreState(
-loadMoreRemainCountThreshold: Int,
-onLoadMore: () -> Unit,
+    loadMoreRemainCountThreshold: Int,
+    onLoadMore: () -> Unit,
 ): LoadMoreState {
     return remember {
         LoadMoreState(loadMoreRemainCountThreshold, onLoadMore)
@@ -354,14 +356,14 @@ onLoadMore: () -> Unit,
 }
 
 data class LoadMoreState(
-val loadMoreRemainCountThreshold: Int,
-val onLoadMore: () -> Unit,
+    val loadMoreRemainCountThreshold: Int,
+    val onLoadMore: () -> Unit,
 )
 
 @OptIn(ExperimentalMaterialApi::class)
 data class LoadableLazyColumnState(
-val lazyListState: LazyListState,
-val pullRefreshState: PullRefreshState,
-val loadMoreState: LoadMoreState,
+    val lazyListState: LazyListState,
+    val pullRefreshState: PullRefreshState,
+    val loadMoreState: LoadMoreState,
 )
 ```
