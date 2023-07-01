@@ -10,7 +10,7 @@ date:   2023-06-30 23:30:40 +0800
 
 Compose 的下拉刷新有现成的 [Material 库](https://developer.android.com/reference/kotlin/androidx/compose/material/pullrefresh/package-summary)可以直接使用，非常简单方便。
 
-但是上拉加载目前没看到有封装的特别好的库，而且上拉加载也是个比较简单的功能，没必要再去依赖一个质量未知的库。我们可以基于目前的 LazyList 简单的封装一个灵活的组件。
+但是上拉加载目前没看到有封装的特别好的库，Paging 有些场景无法满足，而且上拉加载也是个比较简单的功能，没必要再去依赖一个质量未知的库。我们可以基于目前的 LazyList 简单的封装一个灵活的组件。
 
 基本原则是仍然基于现有的 PullRefresh 以及 LazyList API 实现，不依赖三方库，使用简单灵活好用。
 
