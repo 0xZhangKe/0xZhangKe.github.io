@@ -1,7 +1,7 @@
 ---
 layout: post
 category: computer
-title: "Compose 实现 CollapsableTopBarLayout 与 MotionLayout"
+title: "Compose 实现 CollapsableTopBarLayout 以及结合 MotionLayout 使用"
 author: ZhangKe
 date:   2023-07-10 23:59:30 +0800
 ---
