@@ -1,12 +1,10 @@
 ---
 layout: post
 category: computer
-title: "亲手封装一个简单灵活的下拉刷新上拉加载 Compose Layout"
+title: "Compose 实现 CollapsableTopBarLayout 与 MotionLayout"
 author: ZhangKe
-date:   2023-07-10 23:50:30 +0800
+date:   2023-07-10 23:59:30 +0800
 ---
-
-# Compose 实现 CollapsableTopBarLayout 与 MotionLayout
 
 虽然 Android 提供了 `CollapsingToolbarLayout`，但是 Compose 并没有这个组件，好在 Compose 实现起来并不困难，借助 Compose 嵌套滚动的 Api 可以轻易实现，先看下效果图。
 
