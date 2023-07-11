@@ -8,7 +8,7 @@ date:   2023-07-10 23:59:30 +0800
 
 虽然 Android 提供了 `CollapsingToolbarLayout`，但是 Compose 并没有这个组件，好在 Compose 实现起来并不困难，借助 Compose 嵌套滚动的 Api 可以轻易实现，先看下效果图。
 
-![first.gif](/assets/img/post/collapsable/first.gif)
+![first.gif](/assets/img/post/collapsable/second.gif)
 
 在开始实现之前，需要先了解下 `NestedScrollConnection` 。
 
@@ -298,7 +298,7 @@ fun CollapsableTopBarLayout(
 
 顺便说下，如果结合 `MotionLayout` 使用的话，可以实现很多炫酷的交互，例如这种。
 
-![second.gif](/assets/img/post/collapsable/second.gif)
+![second.gif](/assets/img/post/collapsable/first.gif)
 
 `MotionLayout` 是 `ConstrainLayout` 提供的控件，用于实现交互动画，具体使用这里就不多介绍了，跟 `ConstrainLayout` 比较类似。这就直接放上上面这种布局动画的代码。
 
