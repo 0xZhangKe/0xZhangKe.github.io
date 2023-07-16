@@ -18,7 +18,7 @@ Canvas(modifier = Modifier.size(100.dp)) {
 
 先看下效果图吧。
 
-![](/assets/img/post/bezier_curve/preiew.png)
+![](/assets/img/post/bezier_curve/preview.png)
 
 # 贝塞尔曲线
 
