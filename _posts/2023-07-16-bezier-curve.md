@@ -34,7 +34,6 @@ Canvas(modifier = Modifier.size(100.dp)) {
 
 ```kotlin
 // Path.kt
-
 // 二阶贝塞尔曲线
 fun quadraticBezierTo(x1: Float, y1: Float, x2: Float, y2: Float)
 // 三阶贝塞尔曲线
@@ -97,7 +96,7 @@ sealed class BezierCurveStyle {
     // 只有趋势图着色部分
     class Fill(val brush: Brush) : BezierCurveStyle()
 
-		// 只有趋势线段
+	// 只有趋势线段
     class CurveStroke(
         val brush: Brush,
         val stroke: Stroke,
