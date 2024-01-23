@@ -1,0 +1,639 @@
+---
+layout: post
+category: computer
+title: "111Compose 最强导航框架 Voyager 完全使用指南"
+author: ZhangKe
+date:   2024-01-23 23:44:30 +0800
+---
+
+[Voyager](https://voyager.adriel.cafe/) 是一个专为 Compose 页面导航编写的框架，类似于 Jetpack Navigation，但它支持 Compose 跨平台，以 API 简洁好用而广受好评，我之前用的也是 Jetpack Navigation，后面转到 Voyager 之后就再也回不去了，API 设计的非常巧妙，文档很详细，社区也很活跃。
+
+目前 Voyager 已经支持了几乎所有的使用场景，现在我大概用了一年了，今天写一篇文章来总结一下使用经验，以及一些官方文档没有的使用技巧。
+
+# 简介
+
+Voyager 官网地址：[https://voyager.adriel.cafe/](https://voyager.adriel.cafe/)
+
+对于没用过单 Activity + Compose UI 的架构的朋友来说可能导航框架有点陌生。在该架构下，页面的定义跟传统 Android 开发有些区别，对于传统 Android 开发来说，页面就是指 Activity/Fragment，但对于单 Activity + Compose 页面的架构来说，**页面的定义就由导航框架来定义**了。
+
+这是因为，单 Activity 的情况下，我们只需要在 Activity 中设置一下 `setContent` 将 Compose UI 注入到 Activity 中，剩下的对于 Activity 来说就都只是 Compose UI 了，但对于 Compose UI 来说，我们仍然是由页面的区别的，业务上也都是不同的页面，此时就需要一个工具用来将这一大坨 Compose UI 代码按照 Activity 一样组织成页面，那么 Voyager 就是用来解决这个问题的，并且解决的方式非常优雅。
+
+目前 Voyager 不仅支持页面定义和导航，同样也支持 ViewModel 和依赖注入，几乎可以无缝对接使用。
+
+使用起来大概会是这样：
+
+```jsx
+class HomeScreenModel : ScreenModel {
+    // ...
+}
+
+class HomeScreen : Screen {
+
+    @Composable
+    override fun Content() {
+        val screenModel = rememberScreenModel { HomeScreenModel() }
+        // ...
+    }
+}
+
+class SingleActivity : ComponentActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        setContent {
+            Navigator(HomeScreen())
+        }
+    }
+}
+```
+
+# 使用
+
+## Screen-页面
+
+在 Voyager 中，**页面被定义名为 Screen 的对象**（所以这里称呼为屏幕似乎更合适，作为一个跨平台的导航框架来说，叫屏幕好像也没什么问题），我们可以类比 Activity/Fragment，只不过它要简单很多。
+
+```jsx
+public actual interface Screen : Serializable {
+    public actual val key: ScreenKey
+        get() = commonKeyGeneration()
+
+    @Composable
+    public actual fun Content()
+}
+```
+
+这个接口没有任何特殊之处，它只是一个**普通的 Kotlin 接口**，简单明了。
+
+然后我们创建一个页面：
+
+```jsx
+class HomeScreen : Screen {
+
+    @Composable
+    override fun Content() {
+        val screenModel = rememberScreenModel { HomeScreenModel() }
+        // ...
+    }
+}
+```
+
+HomeScreen 也是个普通的 Kotlin 类，也同样没有任何特殊之处，假如这个页面有入参的话，我们甚至可以把它定义为 `data class`。
+
+```kotlin
+data class HomeScreen(val title: String) : Screen {
+
+    @Composable
+    override fun Content() {
+    }
+}
+```
+
+由于 Voyager 的状态持久化存储特性，**Screen 构造器中的参数需要支持序列化**。
+
+当然，我们也可以定义成**单例类**：
+
+```kotlin
+object HomeScreen : Screen {
+
+    @Composable
+    override fun Content() {
+    }
+}
+```
+
+可以看到 Screen 中提供了一个 Composable 函数，我们的 Compose 代码写在这个函数里面即可。
+
+## Navigation-导航
+
+### Navigator
+
+Navigator 是 Voyager 导航的起点和入口，它是一个 Composable 函数，**负责管理生命周期、返回事件、状态恢复以及嵌套导航等**。
+
+```kotlin
+@Composable
+public fun Navigator(
+    screen: Screen,
+    disposeBehavior: NavigatorDisposeBehavior = NavigatorDisposeBehavior(),
+    onBackPressed: OnBackPressed = { true },
+    key: String = compositionUniqueId(),
+    content: NavigatorContent = { CurrentScreen() }
+)
+```
+
+第一个入参就表示该导航区域的第一个屏幕。
+
+```kotlin
+class SingleActivity : ComponentActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        setContent {
+            Navigator(HomeScreen)
+        }
+    }
+}
+```
+
+当我们希望跳转到其它屏幕时，可以通过 `LocalNavigator` 获取到当前范围内最近的那个 Navigator 对象，通过它就可以向其他页面跳转。
+
+```kotlin
+@Composable
+private fun PostCard(post: Post) {
+    val navigator = LocalNavigator.currentOrThrow
+    
+    Card(
+        modifier = Modifier.clickable { 
+            navigator.push(PostDetailsScreen(post.id))
+            // Also works:
+            // navigator push PostDetailsScreen(post.id)
+            // navigator += PostDetailsScreen(post.id)
+        }
+    ) {
+        // ...
+    }
+}
+```
+
+当然，如果需要嵌套页面，例如顶部 TAB 切换不同的 Screen，Voyager 也可以轻易实现。
+
+```kotlin
+@Composable
+override fun Content() {
+    Navigator(HomeScreen) { navigator ->
+        Scaffold(
+            topBar = { /* ... */ },
+            content = { CurrentScreen() },
+            bottomBar = { /* ... */ }
+        )
+    }
+}
+```
+
+**Navigator 类实现了 Stack 接口**，这意味着我们可以像管理 Stack 一样轻松的管理 Screen。
+
+```kotlin
+val stack = mutableStateStackOf("🍇", "🍉", "🍌", "🍐", "🥝", "🍋")
+// 🍇, 🍉, 🍌, 🍐, 🥝, 🍋
+
+stack.lastItemOrNull
+// 🍋
+
+stack.push("🍍")
+// 🍇, 🍉, 🍌, 🍐, 🥝, 🍋, 🍍
+
+stack.pop()
+// 🍇, 🍉, 🍌, 🍐, 🥝, 🍋
+
+stack.popUntil { it == "🍐" }
+// 🍇, 🍉, 🍌, 🍐
+
+stack.replace("🍓")
+// 🍇, 🍉, 🍌, 🍓
+
+stack.replaceAll("🍒")
+// 🍒
+```
+
+通过上面的 API 我们可以轻松的控制页面关系。
+
+### BottomSheet navigation
+
+Voyager 同样也支持 BottomSheet navigation，只需要在 Navigator 最外层设置一下即可。
+
+```kotlin
+setContent {
+    BottomSheetNavigator {
+        Navigator(HomeScreen)
+    }
+}
+```
+
+然后通过 `LocalBottomShetNavigator.current` 获取对应的 Navigator 对象。
+
+```kotlin
+@Composable
+override fun Content() {
+    val bottomSheetNavigator = LocalBottomSheetNavigator.current
+
+    Button(
+        onClick = { 
+            bottomSheetNavigator.show(FrontScreen())
+        }
+    ) {
+        Text(text = "Show BottomSheet")
+    }
+}
+```
+
+但需要注意的是，这里用的不是 Stack 的 API，而是 `BottomSheetNavigator` 独有的 `show/hide` 函数来控制显示或隐藏。
+
+### Tab navigation
+
+Voyager 还支持 Tab navigation。
+
+Tab 接口继承了 Screen 接口，另外还提供了 `options` 属性用于描述 Tab 的一些信息。
+
+```kotlin
+public data class TabOptions(
+    val index: UShort,
+    val title: String,
+    val icon: Painter? = null
+)
+
+public interface Tab : Screen {
+
+    public val options: TabOptions
+        @Composable get
+}
+```
+
+使用起来跟 Navigator 也很类似：
+
+```kotlin
+TabNavigator(HomeTab) {
+    Scaffold(
+        content = { 
+            CurrentTab() 
+        },
+        bottomBar = {
+            BottomNavigation {
+                TabNavigationItem(HomeTab)
+                TabNavigationItem(FavoritesTab)
+                TabNavigationItem(ProfileTab)
+            }
+        }
+    )
+}
+```
+
+然后通过 `LocalTabNavigator.current` 获取到 TabNavigator。
+
+```kotlin
+@Composable
+private fun RowScope.TabNavigationItem(tab: Tab) {
+    val tabNavigator = LocalTabNavigator.current
+
+    BottomNavigationItem(
+        selected = tabNavigator.current == tab,
+        onClick = { tabNavigator.current = tab },
+        icon = { Icon(painter = tab.icon, contentDescription = tab.title) }
+    )
+}
+```
+
+### 跨模块导航
+
+Voyager 提供了跨模块导航的能力，主要有如下几个 API 来完成：
+
+- `ScreenProvider`：在公共模块中注册所有需要跨模块跳转的 Screen。
+- `ScreenRegistry`：将 ScreenProvider 中提供的 Screen 注册到 Voyager 中。
+- `screenModule`：ScreenRegistry 辅助工具。
+- `rememberScreen`：获取 ScreenProvider 中注册的 Screen 实例。
+
+具体使用可以去看下[官方文档](https://voyager.adriel.cafe/navigation/multi-module-navigation)，里面写的很详细，而且有 [Demo](https://github.com/adrielcafe/voyager/tree/main/samples/multi-module)。
+
+不过，关于 Voyager 的跨模块使用我感觉还是有点麻烦，而且我目前的项目是插件化架构，跨模块很多情况下需要通过路由沟通，所以我需要先用路由框架获取到其他模块的 Screen，然后再去打开，路由框架我用的我之前自己写的 [KRouter](https://github.com/0xZhangKe/KRouter)。
+
+此外，Voyager Navigation 也支持嵌套导航，多层嵌套，这里就不多做介绍了。
+
+## ScreenModel/ViewModel
+
+Voyager 中的 ScreenModel 和我们平时用的 ViewModel 几乎一致，只不过要更简单：
+
+```kotlin
+public interface ScreenModel {
+
+    public fun onDispose() {}
+}
+```
+
+ScreenModel 提供了对 Kotlin 协程的支持：
+
+```kotlin
+class PostDetailsScreenModel(
+    private val repository: PostRepository
+) : ScreenModel {
+
+    fun getPost(id: String) {
+        screenModelScope.launch {
+            val post = repository.getPost(id)
+            // ...
+        }
+    }
+}
+```
+
+然后通过 `rememberScreenModel` 函数获取到 ScreenModel 对象。
+
+```kotlin
+@Composable
+override fun Content() {
+    val screenModel = rememberScreenModel { HomeScreenModel() }
+}
+```
+
+不喜欢使用 ScreenModel 的话也可以接着使用 ViewModel，这俩都是 Voyager 支持的，我用的就是 ViewModel。
+
+```kotlin
+@Composable
+override fun Content() {
+    val viewModel = viewModel<PostListViewModel>()
+    // ...
+}
+```
+
+### 依赖注入
+
+Voyager 支持三种依赖注入框架：Koin、Kodein、Hilt。
+
+这里介绍下 Hilt 的使用。
+
+跟普通的类一样，ScreenModel 需要加上 `@Inject` 注解。
+
+```kotlin
+class HomeScreenModel @Inject constructor() : ScreenModel
+```
+
+然后通过 `getScreenModel()` 获取到实例。
+
+```kotlin
+@Composable
+override fun Content() {
+    val screenModel = getScreenModel<HomeScreenModel>()
+}
+```
+
+`@AssistedInject` 同样也是支持的。
+
+```kotlin
+class PostDetailsScreenModel @AssistedInject constructor(
+    @Assisted val postId: Long
+) : ScreenModel {
+
+    @AssistedFactory
+    interface Factory : ScreenModelFactory {
+        fun create(postId: Long): PostDetailsScreenModel
+    }
+}
+
+@Composable
+override fun Content() {
+    val screenModel = getScreenModel<PostDetailsScreenModel, PostDetailsScreenModel.Factory> { factory ->
+        factory.create(postId)
+    }
+}
+```
+
+上面就是 Voyager 基本使用的简单介绍，此外还有一些本文没有介绍的特性：
+
+- Stack Api
+- State restoration
+- Transitions(转场动画)
+- Lifecycle
+- Back pres
+- Deep links
+
+这些都可以在官方文档上找到使用方式，本文就不多做介绍了。
+
+下面介绍一些我平时使用时遇到的一些特化场景和解决方案。
+
+# 一些特殊的场景
+
+## 透明页面
+
+透明页面在传统 Activity/Fragment 中很容易实现，但在 Jetpack Navigation 和 Voyager 中都不是很容易，这里面的问题在于，Compose 中的页面并不是真正意义上的一个页面，例如 Voyager 中的 Navigator，**导航到一个新的页面之后上一个页面并不会被渲染，只会渲染新的页面**，虽然实际上 Navigator API 是用 Stack 管理的，页面也是会叠加的，但目前的导航框架都是只会渲染最新的页面，导致即使新的页面是透明的也没用。
+
+我的解决方案是使用类似 `BottomSheetNavigator` 的机制，额外提供一个 `TransparentNavigator` 用于管理透明页面。
+
+```kotlin
+typealias TransparentNavigatorContent =
+        @Composable (transparentNavigator: TransparentNavigator) -> Unit
+
+val LocalTransparentNavigator: ProvidableCompositionLocal<TransparentNavigator> =
+    staticCompositionLocalOf { error("TransparentNavigator not initialized") }
+
+@Composable
+fun TransparentNavigator(
+    key: String = currentCompositeKeyHash.toString(35),
+    transparentContent: TransparentNavigatorContent = { CurrentScreen() },
+    content: TransparentNavigatorContent
+) {
+    Navigator(HiddenTransparentScreen, onBackPressed = null, key = key) { navigator ->
+        val transparentNavigator = remember(navigator) {
+            TransparentNavigator(navigator)
+        }
+
+        CompositionLocalProvider(
+            LocalTransparentNavigator provides transparentNavigator
+        ) {
+            Box(modifier = Modifier.fillMaxSize()) {
+                content(transparentNavigator)
+                val lastItem = transparentNavigator.lastItemOrNull
+                if (lastItem != null) {
+                    BackHandler {
+                        transparentNavigator.pop()
+                    }
+                    Box(
+                        modifier = Modifier
+                            .noRippleClick {}
+                    ) {
+                        transparentContent(transparentNavigator)
+                    }
+                }
+            }
+        }
+    }
+}
+
+class TransparentNavigator internal constructor(
+    private val navigator: Navigator,
+) : Stack<Screen> by navigator
+
+private object HiddenTransparentScreen : Screen {
+
+    @Composable
+    override fun Content() {
+        Spacer(modifier = Modifier.height(1.dp))
+    }
+}
+```
+
+然后把 TransparentNavigator 套在根 Navigator 的外面。
+
+```kotlin
+TransparentNavigator {
+    Navigator(HomeScreen)
+}
+```
+
+使用也很简单：
+
+```kotlin
+val transparentNavigator = LocalTransparentNavigator.current
+// ...
+transparentNavigator.push(PostListScreen)
+```
+
+## 页面事件回调
+
+类似于 `startActivityFroResult` ，我们有时候希望打开 Screen 之后能接收到这个 Screen 的一些回调，Voyager 本身是没有对这种场景的支持的，后来我找到了个办法可以解决这个问题，期待后面官方可以支持。
+
+大体上就是利用 `NavigatorLifecycleStore` API 存储一个生命周期可以跨越页面的自定义的对象，在这个对象中维护一个数据结构，在这个数据结构中存储页面的返回数据。
+
+```kotlin
+val Navigator.navigationResult: VoyagerResultExtension
+    @Composable get() = remember {
+        NavigatorLifecycleStore.get(this) {
+            VoyagerResultExtension(this)
+        }
+    }
+
+class VoyagerResultExtension(
+    private val navigator: Navigator
+) : NavigatorDisposable {
+    private val results = mutableStateMapOf<String, Any?>()
+
+    override fun onDispose(navigator: Navigator) {
+        // not used
+    }
+
+    public fun popWithResult(result: Any? = null) {
+        val currentScreen = navigator.lastItem
+        results[currentScreen.key] = result
+        navigator.pop()
+    }
+
+    public fun clearResults() {
+        results.clear()
+    }
+
+    public fun popUntilWithResult(predicate: (Screen) -> Boolean, result: Any? = null) {
+        val currentScreen = navigator.lastItem
+        results[currentScreen.key] = result
+        navigator.popUntil(predicate)
+    }
+
+    @Composable
+    public fun <T> getResult(screenKey: String): State<T?> {
+        val log = results.keys.joinToString(", ") { key ->
+            "$key:${results[key]}"
+        }
+        val result = results[screenKey] as? T
+        val resultState = remember(screenKey, result) {
+            derivedStateOf {
+                results.remove(screenKey)
+                result
+            }
+        }
+        return resultState
+    }
+}
+```
+
+用法如下：
+
+```kotlin
+// Screen A
+val result by navigator.navigationResult.getResult<String>(lastItemKey)
+
+// Screen B
+val navigationResult = navigator.navigationResult
+navigationResult.popWithResult("result")
+```
+
+上面的代码中用 A 打开了页面 B，并获取它的返回值，其中的 `lastItemKey` 是指 B 页面的 Key。
+
+文章的开头我们可以看到 Screen 接口中包含一个 Key 属性，这个属性有个默认实现，但我们也可以自定义。如果与 B 页面约定好一个页面的 Key，那么就可以用这个 Key 来传输数据了。
+
+## 全局导航
+
+在使用 TabNavigator 时我遇到了一个问题，我的页面布局是底部多个导航按钮，点击按钮切换 TAB，在 TAB 内部点击某个按钮跳转到二级页面时一般是直接使用 `LocalNavigator.current` 来获取当前的 Navigator 进行跳转，但此时拿到的 Navigator 其实是 TabNavigator，跳转到新的页面会发现二级页面的底部仍然有首页的几个底部导航按钮。
+
+Navigator 被设计为链表，我们可以通过这个链表向上追溯到根 Navigator 然后跳转就行了，或者追溯到上一个 Navigator，但是因为我们的 Navigator 嵌套很复杂，我们获取到的可能是 `BottomSheetNavigator`、 `TransparentNavigator` 等，有点麻烦。
+
+因此，我提供了一个全局 Navigator 用于页面跳转以及控制导航方向。
+
+```kotlin
+val LocalGlobalNavigator: ProvidableCompositionLocal<Navigator> =
+    staticCompositionLocalOf { error("LocalGlobalNavigator not initialized") }
+```
+
+然后在根 Navigator 初提供值：
+
+```kotlin
+// MainActivity.kt
+setContent {
+	TransparentNavigator {
+	    BottomSheetNavigator {
+	        Navigator(HomeScreen)
+	    }
+	}
+}
+
+// HomeScreen.kt
+object HomeScreen : Screen {
+
+    @Composable
+    override fun Content() {
+        CompositionLocalProvider(
+            LocalGlobalNavigator provides LocalNavigator.currentOrThrow
+        ) {
+
+        }
+    }
+}
+```
+
+这样，我们就可以通过 `LocalGlobalNavigator` 拿到全局 Navigator 了。
+
+后面如果我们在 TabNavigator 的内部，就可以通过 `LocalGlobalNavigator` 来跳转到二级页，从而逃脱 TabNavigator 的束缚。
+
+## HorizontalPager 结合使用
+
+在使用 `HorizontalPager` 时，如果我们希望每个 Page 都有一个独立的 ViewModel，那么直接使用 Voyager 是有点麻烦的，如果在 Pager 内部直接使用 Navigator 创建独立 Screen 也可以实现这样的需求，但是 Page 切换时状态会完全丢失。
+
+我仿照 Voyager Tab 做了一个 PagerTab 用于解决该问题。
+
+```kotlin
+interface PagerTab {
+
+    val options: PagerTabOptions?
+        @Composable get
+
+    @Composable
+    fun Screen.TabContent()
+}
+
+data class PagerTabOptions(
+    val title: String,
+    val icon: Painter? = null
+)
+```
+
+TabContent 函数之所以有个 Screen Receiver 是因为需要创建 ViewModel/ScreenModel。
+
+```kotlin
+@Composable
+override fun Content() {
+    val tab = remember {
+        listOf(ProfileTab(), MessageTab())
+    }
+    val state = rememberPagerState {
+        tab.size
+    }
+    HorizontalPager(
+        state = state,
+    ) { pageIndex ->
+        with(tab[pageIndex]) {
+            TabContent()
+        }
+    }
+}
+```
+
+这样，每个 Page 就都有了独立的 ViewModel，这在有多种不同 TAB 的情况下尤其重要。
+
+好了，关于 Voyager 的介绍就到这里了，再次推荐这个框架，真的很好用。
