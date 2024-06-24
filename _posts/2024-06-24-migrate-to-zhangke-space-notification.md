@@ -1,7 +1,7 @@
 ---
 layout: post
 category: computer
-title: "博客迁移通知！！！"
+title: "博客迁移通知"
 author: ZhangKe
 date:   2024-06-24 15:32:30 +0800
 ---
